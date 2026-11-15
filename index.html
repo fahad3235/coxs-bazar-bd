@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cox's Bazar BD — Travel Guide &amp; Trip Planner</title>
+<meta name="description" content="Offline bilingual EN/বাংলা guide to Cox's Bazar, Bangladesh: places, trip cost estimator, day plans, packing checklist and travel tips.">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <h1>Cox's Bazar <span class="bn-title">কক্সবাজার</span></h1>
+      <p id="tagline" class="tagline"></p>
+    </div>
+    <button id="langBtn" class="lang-btn" type="button">বাংলা</button>
+  </div>
+  <div class="facts">
+    <span id="heroBeach"></span>
+    <span id="heroDist"></span>
+    <span id="heroBus"></span>
+  </div>
+  <p id="saintStatus" class="saint"></p>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Sections">
+  <button class="tab active" data-tab="places" data-i18n="tabPlaces" type="button">Places</button>
+  <button class="tab" data-tab="cost" data-i18n="tabCost" type="button">Cost</button>
+  <button class="tab" data-tab="plan" data-i18n="tabPlan" type="button">Plan</button>
+  <button class="tab" data-tab="packing" data-i18n="tabPacking" type="button">Packing</button>
+  <button class="tab" data-tab="tips" data-i18n="tabTips" type="button">Tips</button>
+</nav>
+
+<main>
+  <section id="panel-places" class="panel active">
+    <div class="toolbar">
+      <input id="placeSearch" type="search" data-i18n-ph="searchPh" placeholder="Search places…" aria-label="Search places">
+      <div class="chips">
+        <button class="chip active" data-cat="all" data-i18n="catAll" type="button">All</button>
+        <button class="chip" data-cat="beach" data-i18n="catBeach" type="button">Beaches</button>
+        <button class="chip" data-cat="nature" data-i18n="catNature" type="button">Nature</button>
+        <button class="chip" data-cat="drive" data-i18n="catDrive" type="button">Drive</button>
+        <button class="chip" data-cat="island" data-i18n="catIsland" type="button">Islands</button>
+        <button class="chip" data-cat="market" data-i18n="catMarket" type="button">Market</button>
+      </div>
+    </div>
+    <div id="placeList" class="places"></div>
+  </section>
+
+  <section id="panel-cost" class="panel">
+    <h2 data-i18n="costTitle">Trip cost estimator</h2>
+    <p class="note" data-i18n="costNote"></p>
+    <form id="costForm" class="cost-form" onsubmit="return false">
+      <label><span data-i18n="transport">Transport (Dhaka → Cox’s Bazar)</span>
+        <select id="transportSel"></select></label>
+      <label><span data-i18n="people">People</span>
+        <input id="peopleIn" type="number" min="1" max="30" step="1" value="2"></label>
+      <label><span data-i18n="nights">Nights</span>
+        <input id="nightsIn" type="number" min="1" max="14" step="1" value="2"></label>
+      <label><span data-i18n="hotel">Hotel / night (per room)</span>
+        <input id="hotelIn" type="number" min="0" max="100000" step="100" value="3500"></label>
+      <label><span data-i18n="food">Food / day (per person)</span>
+        <input id="foodIn" type="number" min="0" max="50000" step="50" value="1200"></label>
+      <label><span data-i18n="local">Local travel / day (per person)</span>
+        <input id="localIn" type="number" min="0" max="50000" step="50" value="800"></label>
+      <label><span data-i18n="activities">Activities total (per person)</span>
+        <input id="activitiesIn" type="number" min="0" max="100000" step="100" value="1500"></label>
+    </form>
+    <div class="totals">
+      <div class="total-box"><span data-i18n="perPerson">Per person</span><strong id="perPerson">—</strong></div>
+      <div class="total-box"><span data-i18n="groupTotal">Group total</span><strong id="groupTotal">—</strong></div>
+      <p id="roomsLine" class="muted"></p>
+      <p class="muted" data-i18n="roundTrip">Round trip (×2) included</p>
+    </div>
+    <h3 data-i18n="breakdown">Breakdown</h3>
+    <dl class="breakdown">
+      <div><dt data-i18n="bdTransport">Transport</dt><dd id="bdTransport">—</dd></div>
+      <div><dt data-i18n="bdHotel">Hotel</dt><dd id="bdHotel">—</dd></div>
+      <div><dt data-i18n="bdFood">Food</dt><dd id="bdFood">—</dd></div>
+      <div><dt data-i18n="bdLocal">Local travel</dt><dd id="bdLocal">—</dd></div>
+      <div><dt data-i18n="bdActivities">Activities</dt><dd id="bdActivities">—</dd></div>
+    </dl>
+  </section>
+
+  <section id="panel-plan" class="panel">
+    <h2 data-i18n="planTitle">Day-by-day plan</h2>
+    <div class="plan-days">
+      <button data-days="2" class="active" type="button"><span data-i18n="planDays2">2 days</span></button>
+      <button data-days="3" type="button"><span data-i18n="planDays3">3 days</span></button>
+    </div>
+    <p class="muted" data-i18n="switchPlanNote">Switching plans clears your checkmarks.</p>
+    <div class="progress"><div id="planBar" class="bar"></div></div>
+    <p id="planProgress" class="muted"></p>
+    <div id="planList"></div>
+  </section>
+
+  <section id="panel-packing" class="panel">
+    <h2 data-i18n="packTitle">Packing checklist</h2>
+    <div class="progress"><div id="packBar" class="bar"></div></div>
+    <p id="packProgress" class="muted"></p>
+    <div class="add-row">
+      <input id="customPackIn" type="text" maxlength="80" data-i18n-ph="packAddPh" placeholder="e.g. Umbrella" aria-label="Add a packing item">
+      <button id="customPackAdd" type="button"><span data-i18n="packAdd">Add item</span></button>
+    </div>
+    <div id="packList"></div>
+  </section>
+
+  <section id="panel-tips" class="panel">
+    <h2 data-i18n="seasonsTitle">Best time to visit</h2>
+    <div id="seasonList" class="seasons"></div>
+    <h2 data-i18n="tipsTitle">Know before you go</h2>
+    <ul id="tipsList" class="tips"></ul>
+    <div class="data-box">
+      <button id="exportBtn" type="button"><span data-i18n="exportBtn">Export my plan</span></button>
+      <label class="import-label"><span data-i18n="importBtn">Import</span>
+        <input id="importFile" type="file" accept="application/json,.json" hidden></label>
+      <button id="eraseBtn" class="danger" type="button"><span data-i18n="eraseBtn">Erase all my data</span></button>
+      <p id="dataMsg" class="muted" role="status"></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p data-i18n="footer">Offline guide — no internet needed. Prices are planning ranges, not live rates. Travel safe.</p>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/core.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
